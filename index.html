@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>অন্ধকার ত্রয়ী — সংক্ষিপ্ত মূল্যায়ন</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE6D6;
+    --paper-dark:#E2D9C4;
+    --ink:#221F1C;
+    --ink-soft:#4A4640;
+    --crimson:#8C3B3B;
+    --sage:#5F7A5A;
+    --gold:#A9803E;
+    --line:#c9bfa5;
+    --mach:#8C3B3B;
+    --narc:#A9803E;
+    --psych:#3F5B6B;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(0,0,0,0.025) 0, transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(0,0,0,0.03) 0, transparent 50%);
+    color:var(--ink);
+    font-family:'Hind Siliguri', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding: 40px 16px 80px;
+  }
+  .stage{
+    width:100%;
+    max-width:680px;
+  }
+  .masthead{
+    text-align:center;
+    margin-bottom:34px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:22px;
+  }
+  .masthead .eyebrow{
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .masthead h1{
+    font-family:'Noto Serif Bengali', serif;
+    font-weight:700;
+    font-size:clamp(30px,6vw,44px);
+    margin:0 0 8px;
+    letter-spacing:0.01em;
+  }
+  .masthead p{
+    font-size:15px;
+    color:var(--ink-soft);
+    max-width:480px;
+    margin:0 auto;
+    line-height:1.7;
+  }
+
+  /* ---- Intro card ---- */
+  .card{
+    background:var(--paper-dark);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:34px 30px;
+    position:relative;
+  }
+  .card::before{
+    content:"";
+    position:absolute; inset:6px;
+    border:1px solid rgba(34,31,28,0.12);
+    pointer-events:none;
+  }
+  .intro-list{
+    list-style:none;
+    padding:0; margin:22px 0 28px;
+  }
+  .intro-list li{
+    display:flex;
+    gap:12px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin-bottom:12px;
+  }
+  .intro-list li .mark{
+    font-family:'Noto Serif Bengali',serif;
+    color:var(--crimson);
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .btn{
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:16px;
+    font-weight:600;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:14px 26px;
+    border-radius:2px;
+    cursor:pointer;
+    letter-spacing:0.02em;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .btn:hover{ background:var(--crimson); }
+  .btn:active{ transform:scale(0.98); }
+  .btn.ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--ink);
+  }
+  .btn.ghost:hover{ background:var(--ink); color:var(--paper); }
+  .btn:disabled{ opacity:0.35; cursor:not-allowed; background:var(--ink); }
+  .btn-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+  .disclaimer{
+    font-size:12px;
+    color:var(--ink-soft);
+    border-top:1px dashed var(--line);
+    margin-top:26px;
+    padding-top:16px;
+    line-height:1.6;
+  }
+
+  /* ---- Quiz ---- */
+  .progress-wrap{
+    margin-bottom:22px;
+  }
+  .progress-track{
+    height:2px;
+    background:var(--line);
+    position:relative;
+  }
+  .progress-fill{
+    position:absolute; left:0; top:0; bottom:0;
+    background:var(--crimson);
+    width:0%;
+    transition:width .35s ease;
+  }
+  .progress-meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:8px;
+    letter-spacing:0.04em;
+  }
+
+  .qcard{
+    background:var(--paper-dark);
+    border:1px solid var(--line);
+    padding:40px 30px;
+    min-height:260px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+  }
+  .qcard::before{
+    content:"";
+    position:absolute; inset:6px;
+    border:1px solid rgba(34,31,28,0.12);
+    pointer-events:none;
+  }
+  .qnum{
+    font-family:'Noto Serif Bengali',serif;
+    font-size:13px;
+    color:var(--crimson);
+    letter-spacing:0.12em;
+    margin-bottom:14px;
+  }
+  .qtext{
+    font-family:'Noto Serif Bengali',serif;
+    font-size:clamp(20px,4vw,25px);
+    line-height:1.55;
+    font-weight:500;
+    margin-bottom:30px;
+    min-height:80px;
+  }
+  .likert{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .likert button{
+    text-align:right;
+    font-family:'Hind Siliguri',sans-serif;
+    font-size:15.5px;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink);
+    padding:13px 18px;
+    border-radius:2px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:all .15s ease;
+  }
+  .likert button .dot{
+    width:9px;height:9px;border-radius:50%;
+    border:1.5px solid var(--ink-soft);
+    flex-shrink:0;
+  }
+  .likert button:hover{
+    border-color:var(--crimson);
+    background:rgba(140,59,59,0.06);
+  }
+  .likert button.selected{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .likert button.selected .dot{
+    background:var(--paper);
+    border-color:var(--paper);
+  }
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:22px;
+  }
+  .nav-row .btn.ghost{ padding:10px 20px; font-size:14px; }
+
+  /* ---- Results ---- */
+  .results h2{
+    font-family:'Noto Serif Bengali',serif;
+    font-size:26px;
+    margin:0 0 6px;
+    text-align:center;
+  }
+  .results .sub{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14px;
+    margin-bottom:30px;
+  }
+  .trait-block{
+    margin-bottom:26px;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--line);
+  }
+  .trait-block:last-of-type{ border-bottom:none; }
+  .trait-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .trait-name{
+    font-family:'Noto Serif Bengali',serif;
+    font-size:19px;
+    font-weight:600;
+  }
+  .trait-score{
+    font-family:'Noto Serif Bengali',serif;
+    font-size:15px;
+    color:var(--ink-soft);
+  }
+  .gauge{
+    height:8px;
+    background:rgba(34,31,28,0.08);
+    border-radius:6px;
+    overflow:hidden;
+    margin:10px 0 10px;
+  }
+  .gauge-fill{
+    height:100%;
+    border-radius:6px;
+    width:0%;
+    transition:width 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .trait-level{
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    margin-bottom:8px;
+  }
+  .trait-desc{
+    font-size:14.5px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+  .results-footer{
+    text-align:center;
+    margin-top:10px;
+  }
+  .hidden{ display:none; }
+
+  @media (max-width:480px){
+    .qcard, .card{ padding:26px 18px; }
+    .likert button{ padding:12px 14px; font-size:14.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="masthead">
+    <div class="eyebrow">ব্যক্তিত্ব মূল্যায়ন সিরিজ · ২৭ প্রশ্ন</div>
+    <h1>অন্ধকার ত্রয়ী</h1>
+    <p>ম্যাকিয়াভেলিয়ানিজম, নার্সিসিজম ও সাইকোপ্যাথি — এই তিনটি ব্যক্তিত্বের বৈশিষ্ট্য নিয়ে একটি সংক্ষিপ্ত স্ব-মূল্যায়ন।</p>
+  </div>
+
+  <!-- INTRO -->
+  <div id="screen-intro" class="card">
+    <ul class="intro-list">
+      <li><span class="mark">০১</span> এখানে ২৭টি বাক্য দেওয়া আছে। প্রতিটি বাক্যের সঙ্গে আপনি কতটা একমত বা দ্বিমত, তা সততার সঙ্গে বেছে নিন।</li>
+      <li><span class="mark">০২</span> কোনো উত্তর "ঠিক" বা "ভুল" নয় — প্রথম যে প্রতিক্রিয়া মনে আসে, সেটিই বেছে নিন।</li>
+      <li><span class="mark">০৩</span> শেষে তিনটি বৈশিষ্ট্যে আপনার প্রবণতা কতটা, তা একটি সংক্ষিপ্ত ফলাফলে দেখানো হবে।</li>
+    </ul>
+    <div class="btn-row">
+      <button class="btn" onclick="startQuiz()">শুরু করুন</button>
+    </div>
+    <div class="disclaimer">
+      দ্রষ্টব্য: এটি একটি জনপ্রিয় মনোবৈজ্ঞানিক গবেষণা স্কেলের (Short Dark Triad, Jones &amp; Paulhus) বাংলা রূপান্তর — এটি কোনো ক্লিনিক্যাল নির্ণয় বা পেশাদার মনস্তাত্ত্বিক মূল্যায়ন নয়, নিছক আত্ম-অন্বেষণের একটি মাধ্যম।
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="hidden">
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-meta">
+        <span id="progressLabel">প্রশ্ন ১ / ২৭</span>
+        <span id="progressPercent">৪%</span>
+      </div>
+    </div>
+    <div class="qcard">
+      <div class="qnum" id="qnum">প্রশ্ন ০১</div>
+      <div class="qtext" id="qtext">—</div>
+      <div class="likert" id="likert"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn ghost" id="backBtn" onclick="prevQuestion()">← পূর্ববর্তী</button>
+      <button class="btn ghost" onclick="goIntro()">শুরু থেকে</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="screen-results" class="hidden card results">
+    <h2>আপনার ফলাফল</h2>
+    <div class="sub">প্রতিটি বৈশিষ্ট্যের স্কোর ১ (সর্বনিম্ন) থেকে ৫ (সর্বোচ্চ) পর্যন্ত</div>
+
+    <div class="trait-block">
+      <div class="trait-head">
+        <span class="trait-name">ম্যাকিয়াভেলিয়ানিজম</span>
+        <span class="trait-score" id="score-mach">০.০</span>
+      </div>
+      <div class="gauge"><div class="gauge-fill" id="gauge-mach" style="background:var(--mach)"></div></div>
+      <div class="trait-level" id="level-mach" style="color:var(--mach)"></div>
+      <div class="trait-desc">কৌশলগত চিন্তা, ব্যবহারিক দৃষ্টিভঙ্গি এবং সম্পর্ককে নিজের স্বার্থে ব্যবহার করার প্রবণতা নির্দেশ করে। উচ্চ স্কোর মানে পরিকল্পনা করে এগোনো ও সুনাম রক্ষার প্রতি সচেতনতা বেশি।</div>
+    </div>
+
+    <div class="trait-block">
+      <div class="trait-head">
+        <span class="trait-name">নার্সিসিজম</span>
+        <span class="trait-score" id="score-narc">০.০</span>
+      </div>
+      <div class="gauge"><div class="gauge-fill" id="gauge-narc" style="background:var(--narc)"></div></div>
+      <div class="trait-level" id="level-narc" style="color:var(--narc)"></div>
+      <div class="trait-desc">নিজের গুরুত্ব, নেতৃত্বগুণ ও প্রশংসার প্রতি আকাঙ্ক্ষা কতটা প্রবল, তা বোঝায়। উচ্চ স্কোর মানে আত্মবিশ্বাস ও মনোযোগের কেন্দ্রে থাকার প্রবণতা বেশি।</div>
+    </div>
+
+    <div class="trait-block">
+      <div class="trait-head">
+        <span class="trait-name">সাইকোপ্যাথি</span>
+        <span class="trait-score" id="score-psych">০.০</span>
+      </div>
+      <div class="gauge"><div class="gauge-fill" id="gauge-psych" style="background:var(--psych)"></div></div>
+      <div class="trait-level" id="level-psych" style="color:var(--psych)"></div>
+      <div class="trait-desc">আবেগপ্রবণতা, ঝুঁকি নেওয়ার প্রবণতা এবং অন্যের প্রতি সংবেদনশীলতার অভাব নির্দেশ করে। উচ্চ স্কোর মানে দ্রুত প্রতিক্রিয়া ও কম দায়িত্বশীলতার প্রবণতা বেশি।</div>
+    </div>
+
+    <div class="results-footer">
+      <button class="btn" onclick="emailRawData()" style="margin-bottom:12px;">ইমেইলে রেজাল্ট পাঠান</button><br>
+      <button class="btn ghost" onclick="goIntro()">আবার শুরু করুন</button>
+    </div>
+    <div class="disclaimer">
+      এই ফলাফল কোনো রোগ নির্ণয় নয়। মানুষের ব্যক্তিত্ব জটিল ও পরিবর্তনশীল — একটি সংক্ষিপ্ত স্কেল তার একটি ক্ষুদ্র অংশমাত্র প্রতিফলিত করে।
+    </div>
+  </div>
+
+</div>
+
+<script>
+const LIKERT = ["সম্পূর্ণ দ্বিমত","দ্বিমত","নিরপেক্ষ","সম্মত","সম্পূর্ণ সম্মত"];
+
+// subscale: 'mach' | 'narc' | 'psych', reverse: true/false
+const QUESTIONS = [
+  {t:"নিজের ব্যক্তিগত গোপন কথা অন্যদের জানানো ঠিক নয় বলে আমি মনে করি।", s:"mach", r:false},
+  {t:"নিজের কাজ আদায় করতে প্রয়োজনে মানুষকে কৌশলে প্রভাবিত করতে আমি দ্বিধা করি না।", s:"mach", r:false},
+  {t:"জীবনে গুরুত্বপূর্ণ কিছু অর্জন করতে হলে গুরুত্বপূর্ণ মানুষদের নিজের পক্ষে রাখা দরকার।", s:"mach", r:false},
+  {t:"কারও সঙ্গে সরাসরি ঝামেলায় না জড়ানোই ভালো, কারণ ভবিষ্যতে সেই মানুষটির সাহায্য লাগতে পারে।", s:"mach", r:false},
+  {t:"ভবিষ্যতে কারও বিরুদ্ধে কাজে লাগতে পারে—এমন তথ্য আমি মনে রাখি বা সংরক্ষণ করে রাখি।", s:"mach", r:false},
+  {t:"কারও কাছ থেকে প্রতিশোধ নেওয়ার আগে উপযুক্ত সময়ের অপেক্ষা করা ভালো বলে আমি মনে করি।", s:"mach", r:false},
+  {t:"নিজের সুনাম ঠিক রাখতে কিছু বিষয় অন্যদের কাছ থেকে গোপন রাখা দরকার।", s:"mach", r:false},
+  {t:"কোনো পরিকল্পনা করার সময় আমি প্রথমে দেখি সেটি আমার নিজের কী উপকার করবে।", s:"mach", r:false},
+  {t:"বেশিরভাগ মানুষকেই কোনো না কোনোভাবে প্রভাবিত করা সম্ভব বলে আমি মনে করি।", s:"mach", r:false},
+
+  {t:"মানুষ সাধারণত আমাকে একজন স্বাভাবিক নেতা হিসেবে দেখে।", s:"narc", r:false},
+  {t:"আমি চাই না যে সবসময় সবার মনোযোগ আমার দিকে থাকুক।", s:"narc", r:true},
+  {t:"আমি না থাকলে অনেক দলগত কাজ বা আড্ডা বেশ একঘেয়ে হয়ে যায় বলে মনে হয়।", s:"narc", r:false},
+  {t:"অন্যরা আমাকে বিশেষ একজন মানুষ বলে মনে করে—এটা আমি বুঝতে পারি।", s:"narc", r:false},
+  {t:"সমাজে প্রভাবশালী বা গুরুত্বপূর্ণ মানুষদের সঙ্গে পরিচিত হতে আমার ভালো লাগে।", s:"narc", r:false},
+  {t:"কেউ আমার প্রশংসা করলে আমি একটু অস্বস্তি বা বিব্রত বোধ করি।", s:"narc", r:true},
+  {t:"আমাকে কখনো কখনো বিখ্যাত বা পরিচিত মানুষের সঙ্গে তুলনা করা হয়েছে।", s:"narc", r:false},
+  {t:"আমি নিজেকে অন্য সবার মতোই একজন সাধারণ মানুষ মনে করি।", s:"narc", r:true},
+  {t:"আমি মনে করি, আমি যে সম্মান পাওয়ার যোগ্য, তা আমার পাওয়া উচিত।", s:"narc", r:false},
+
+  {t:"যারা আমার ওপর কর্তৃত্ব দেখায়, তাদের বিরুদ্ধে প্রতিশোধ নিতে আমার ইচ্ছা হয়।", s:"psych", r:false},
+  {t:"আমি সাধারণত ঝুঁকিপূর্ণ বা বিপজ্জনক পরিস্থিতি এড়িয়ে চলি।", s:"psych", r:true},
+  {t:"কেউ আমার সঙ্গে খারাপ আচরণ করলে তার জবাব দ্রুত এবং কঠোরভাবে দেওয়া উচিত বলে আমি মনে করি।", s:"psych", r:false},
+  {t:"মানুষ প্রায়ই আমাকে এমন একজন হিসেবে দেখে, যে নিজের আচরণ সবসময় নিয়ন্ত্রণে রাখতে পারে না।", s:"psych", r:false},
+  {t:"আমি স্বীকার করি যে প্রয়োজনে আমি অন্যদের সঙ্গে বেশ নিষ্ঠুর আচরণ করতে পারি।", s:"psych", r:false},
+  {t:"কেউ আমার সঙ্গে অন্যায় করলে শেষ পর্যন্ত তাকে তার ফল ভোগ করতে হয়।", s:"psych", r:false},
+  {t:"জীবনে কখনোই আমি আইনের ঝামেলায় পড়িনি।", s:"psych", r:true},
+  {t:"যাদের আমি খুব বেশি চিনি না, তাদের সঙ্গেও ঘনিষ্ঠ বা যৌন সম্পর্ক উপভোগ করতে পারি।", s:"psych", r:false},
+  {t:"নিজের উদ্দেশ্য পূরণ করতে হলে প্রয়োজনে আমি যেকোনো কথা বলতে পারি।", s:"psych", r:false},
+];
+
+const BN_DIGITS = ["০","১","২","৩","৪","৫","৬","৭","৮","৯"];
+function toBn(num){
+  return String(num).split("").map(d => BN_DIGITS[d] ?? d).join("");
+}
+
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+
+function show(id){
+  ["screen-intro","screen-quiz","screen-results"].forEach(s=>{
+    document.getElementById(s).classList.toggle("hidden", s!==id);
+  });
+}
+
+function startQuiz(){
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  show("screen-quiz");
+  renderQuestion();
+}
+
+function goIntro(){
+  show("screen-intro");
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  document.getElementById("qnum").textContent = "প্রশ্ন " + toBn(current+1).padStart? "" : "প্রশ্ন " + toBn(current+1);
+  document.getElementById("qnum").textContent = "প্রশ্ন " + toBn(current+1);
+  document.getElementById("qtext").textContent = q.t;
+
+  const likertDiv = document.getElementById("likert");
+  likertDiv.innerHTML = "";
+  LIKERT.forEach((label, idx) => {
+    const val = idx+1;
+    const btn = document.createElement("button");
+    btn.innerHTML = `<span>${label}</span><span class="dot"></span>`;
+    if(answers[current] === val) btn.classList.add("selected");
+    btn.onclick = () => selectAnswer(val);
+    likertDiv.appendChild(btn);
+  });
+
+  document.getElementById("backBtn").style.visibility = current === 0 ? "hidden" : "visible";
+
+  const pct = Math.round(((current)/QUESTIONS.length)*100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressLabel").textContent = `প্রশ্ন ${toBn(current+1)} / ${toBn(QUESTIONS.length)}`;
+  document.getElementById("progressPercent").textContent = toBn(pct) + "%";
+}
+
+function selectAnswer(val){
+  answers[current] = val;
+  renderQuestion();
+  setTimeout(() => {
+    if(current < QUESTIONS.length - 1){
+      current++;
+      renderQuestion();
+    } else {
+      finishQuiz();
+    }
+  }, 220);
+}
+
+function prevQuestion(){
+  if(current > 0){
+    current--;
+    renderQuestion();
+  }
+}
+
+function finishQuiz(){
+  const totals = {mach:0, narc:0, psych:0};
+  const counts = {mach:0, narc:0, psych:0};
+  QUESTIONS.forEach((q, i) => {
+    let v = answers[i] ?? 3;
+    if(q.r) v = 6 - v;
+    totals[q.s] += v;
+    counts[q.s]++;
+  });
+  const avg = {
+    mach: totals.mach / counts.mach,
+    narc: totals.narc / counts.narc,
+    psych: totals.psych / counts.psych,
+  };
+  renderResults(avg);
+  show("screen-results");
+}
+
+function levelLabel(v){
+  if(v < 2.34) return "তুলনামূলক কম";
+  if(v < 3.67) return "মাঝারি";
+  return "তুলনামূলক বেশি";
+}
+
+let lastAvg = null;
+
+function renderResults(avg){
+  lastAvg = avg;
+  ["mach","narc","psych"].forEach(key => {
+    const v = avg[key];
+    document.getElementById("score-"+key).textContent = toBn(v.toFixed(1));
+    const pct = ((v-1)/4)*100;
+    document.getElementById("gauge-"+key).style.width = pct + "%";
+    document.getElementById("level-"+key).textContent = levelLabel(v);
+  });
+}
+
+function emailRawData(){
+  const to = "sakirulislamapon@gmail.com";
+  const now = new Date();
+  const stamp = now.toLocaleString("bn-BD");
+
+  let lines = [];
+  lines.push("অন্ধকার ত্রয়ী (SD3) — কাঁচা উত্তরের তথ্য");
+  lines.push("সময়: " + stamp);
+  lines.push("");
+  lines.push("প্রশ্নভিত্তিক উত্তর (মান ১-৫, R = রিভার্স-স্কোর করা প্রশ্ন):");
+  QUESTIONS.forEach((q, i) => {
+    const raw = answers[i];
+    lines.push(`${i+1}. [${q.s}${q.r ? ",R" : ""}] "${q.t}" -> ${raw}`);
+  });
+  lines.push("");
+  if(lastAvg){
+    lines.push("গড় স্কোর:");
+    lines.push(`ম্যাকিয়াভেলিয়ানিজম: ${lastAvg.mach.toFixed(2)}`);
+    lines.push(`নার্সিসিজম: ${lastAvg.narc.toFixed(2)}`);
+    lines.push(`সাইকোপ্যাথি: ${lastAvg.psych.toFixed(2)}`);
+  }
+
+  const subject = encodeURIComponent("SD3 রেজাল্ট — " + stamp);
+  const body = encodeURIComponent(lines.join("\n"));
+  window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
